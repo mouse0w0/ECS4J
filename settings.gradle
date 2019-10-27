@@ -1,3 +1,4 @@
 rootProject.name = 'ecs'
-include 'hash'
+include 'base'
+include 'common'
 
