@@ -18,11 +18,15 @@ public class ObjectArray<T> {
     }
 
     public void set(int index, T value) {
-        checkCapacity(index + 1);
+        ensureCapacity(index + 1);
         array[index] = value;
     }
 
-    private void checkCapacity(int minCapacity) {
+    public void unsafeSet(int index, T value) {
+        array[index] = value;
+    }
+
+    public void ensureCapacity(int minCapacity) {
         if (array.length < minCapacity) {
             grow(minCapacity);
         }

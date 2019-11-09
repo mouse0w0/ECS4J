@@ -19,11 +19,15 @@ public class IntArray {
     }
 
     public void set(int index, int value) {
-        checkCapacity(index + 1);
+        ensureCapacity(index + 1);
         array[index] = value;
     }
 
-    private void checkCapacity(int minCapacity) {
+    public void unsafeSet(int index, int value) {
+        array[index] = value;
+    }
+
+    public void ensureCapacity(int minCapacity) {
         if (array.length < minCapacity) {
             grow(minCapacity);
         }
