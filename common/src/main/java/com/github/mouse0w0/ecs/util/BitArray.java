@@ -124,7 +124,7 @@ public class BitArray {
         for (int i = 0; i < minLength; i++) {
             bits[i] ^= otherBits[i];
         }
-        if (minLength >= otherBits.length) {
+        if (minLength < otherBits.length) {
             checkCapacity(otherBits.length);
             for (int i = minLength, length = otherBits.length; i < length; i++) {
                 bits[i] = otherBits[i];
