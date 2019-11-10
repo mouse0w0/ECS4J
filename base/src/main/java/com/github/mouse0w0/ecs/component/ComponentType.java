@@ -1,11 +1,11 @@
 package com.github.mouse0w0.ecs.component;
 
-public class ComponentType {
+public final class ComponentType {
 
     private final int id;
     private final Class<? extends Component> type;
 
-    ComponentType(int id, Class<? extends Component> type) {
+    public ComponentType(int id, Class<? extends Component> type) {
         this.id = id;
         this.type = type;
     }
