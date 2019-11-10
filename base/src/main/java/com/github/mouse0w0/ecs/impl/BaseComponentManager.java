@@ -4,10 +4,13 @@ import com.github.mouse0w0.ecs.component.Component;
 import com.github.mouse0w0.ecs.component.ComponentManager;
 import com.github.mouse0w0.ecs.component.ComponentType;
 import com.github.mouse0w0.ecs.component.ComponentTypeFactory;
+import com.github.mouse0w0.ecs.util.ObjectArray;
 
 public abstract class BaseComponentManager implements ComponentManager {
 
     private final ComponentTypeFactory componentTypeFactory = createComponentTypeFactory();
+
+    private final ObjectArray<ComponentMapper> components = new ObjectArray<>();
 
     protected abstract ComponentTypeFactory createComponentTypeFactory();
 
@@ -31,8 +34,12 @@ public abstract class BaseComponentManager implements ComponentManager {
 
     }
 
-    @Override
-    public void saveComponent(int entityId, Component component) {
+    private class ComponentMapper {
+        private final ComponentType type;
+        private final ObjectArray<Component> components = new ObjectArray<>();
 
+        public ComponentMapper(ComponentType type) {
+            this.type = type;
+        }
     }
 }

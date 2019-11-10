@@ -72,11 +72,6 @@ public abstract class BaseThreadSafeEntityManager implements LowLevelEntityManag
     }
 
     @Override
-    public void saveComponent(int entityId, Component component) {
-        componentManager.saveComponent(entityId, component);
-    }
-
-    @Override
     public void destroy(int entityId) {
         EntityRef entityRef = existingEntities.get(entityId);
         if (entityRef != null) {

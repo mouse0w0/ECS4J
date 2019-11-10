@@ -45,11 +45,6 @@ public class BaseEntityRef implements EntityRef {
     }
 
     @Override
-    public void saveComponent(Component component) {
-        entityManager.saveComponent(id, component);
-    }
-
-    @Override
     public <T extends Component> T getComponent(ComponentType type) {
         return entityManager.getComponent(id, type);
     }

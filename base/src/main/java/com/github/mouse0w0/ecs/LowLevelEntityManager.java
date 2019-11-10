@@ -15,7 +15,5 @@ public interface LowLevelEntityManager extends EntityManager {
 
     void removeComponent(int entityId, ComponentType type);
 
-    void saveComponent(int entityId, Component component);
-
     void destroy(int entityId);
 }

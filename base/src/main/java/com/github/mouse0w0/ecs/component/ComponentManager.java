@@ -8,6 +8,4 @@ public interface ComponentManager {
     <T extends Component> T addComponent(int entityId, T component);
 
     void removeComponent(int entityId, ComponentType type);
-
-    void saveComponent(int entityId, Component component);
 }
