@@ -1,4 +1,4 @@
-package com.github.mouse0w0.ecs.impl;
+package com.github.mouse0w0.ecs;
 
 import com.github.mouse0w0.ecs.component.ComponentManager;
 

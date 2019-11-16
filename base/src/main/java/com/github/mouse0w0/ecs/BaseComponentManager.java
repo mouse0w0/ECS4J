@@ -1,4 +1,4 @@
-package com.github.mouse0w0.ecs.impl;
+package com.github.mouse0w0.ecs;
 
 import com.github.mouse0w0.ecs.component.Component;
 import com.github.mouse0w0.ecs.component.ComponentManager;
@@ -34,7 +34,7 @@ public abstract class BaseComponentManager implements ComponentManager {
 
     }
 
-    private class ComponentMapper {
+    private static class ComponentMapper {
         private final ComponentType type;
         private final ObjectArray<Component> components = new ObjectArray<>();
 
