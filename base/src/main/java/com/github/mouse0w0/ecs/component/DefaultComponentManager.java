@@ -1,6 +1,4 @@
-package com.github.mouse0w0.ecs;
-
-import com.github.mouse0w0.ecs.component.ComponentTypeFactory;
+package com.github.mouse0w0.ecs.component;
 
 public class DefaultComponentManager extends BaseComponentManager {
     @Override

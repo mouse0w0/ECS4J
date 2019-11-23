@@ -1,5 +1,6 @@
 package com.github.mouse0w0.ecs.util;
 
+import java.lang.reflect.Array;
 import java.util.Arrays;
 
 public class ObjectArray<T> {
@@ -9,8 +10,16 @@ public class ObjectArray<T> {
         this(64);
     }
 
+    public ObjectArray(Class<T> type) {
+        this(type, 64);
+    }
+
     public ObjectArray(int capacity) {
-        array = (T[]) new Object[capacity];
+        array = (T[]) Array.newInstance(Object.class, capacity);
+    }
+
+    public ObjectArray(Class<T> type, int capacity) {
+        array = (T[]) Array.newInstance(type, capacity);
     }
 
     public T get(int index) {
@@ -36,9 +45,7 @@ public class ObjectArray<T> {
         int oldCapacity = array.length;
         int newCapacity = oldCapacity + oldCapacity << 1;
         if (newCapacity < minCapacity) newCapacity = minCapacity;
-        T[] newArray = (T[]) new Object[newCapacity];
-        System.arraycopy(array, 0, newArray, 0, oldCapacity);
-        array = newArray;
+        array = Arrays.copyOf(array, newCapacity);
     }
 
     public int size() {

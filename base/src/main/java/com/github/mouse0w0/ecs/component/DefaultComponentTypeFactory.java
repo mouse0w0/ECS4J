@@ -1,8 +1,5 @@
-package com.github.mouse0w0.ecs;
+package com.github.mouse0w0.ecs.component;
 
-import com.github.mouse0w0.ecs.component.Component;
-import com.github.mouse0w0.ecs.component.ComponentType;
-import com.github.mouse0w0.ecs.component.ComponentTypeFactory;
 import com.github.mouse0w0.ecs.util.ObjectArray;
 
 import java.util.IdentityHashMap;
