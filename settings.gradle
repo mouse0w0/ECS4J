@@ -1,4 +1,5 @@
 rootProject.name = 'ecs'
 include 'base'
 include 'common'
+include 'benchmark'
 

@@ -6,10 +6,7 @@ import com.github.mouse0w0.ecs.component.ComponentType;
 import com.github.mouse0w0.ecs.util.IntQueue;
 import com.github.mouse0w0.ecs.util.ObjectArray;
 
-import javax.annotation.concurrent.ThreadSafe;
-
-@ThreadSafe
-public abstract class BaseThreadSafeEntityManager implements LowLevelEntityManager {
+public abstract class BaseEntityManager implements LowLevelEntityManager {
 
     private final ObjectArray<EntityRef> existingEntities = new ObjectArray<>();
     private final IntQueue recycledEntityId = new IntQueue();
@@ -22,20 +19,16 @@ public abstract class BaseThreadSafeEntityManager implements LowLevelEntityManag
 
     @Override
     public EntityRef createEntity() {
-        synchronized (recycledEntityId) {
-            if (recycledEntityId.isEmpty()) {
-                int id = nextId++;
-                EntityRef ref = new BaseEntityRef(this, id);
-                synchronized (existingEntities) {
-                    existingEntities.set(id, ref);
-                }
-                return ref;
-            } else {
-                int id = recycledEntityId.pop();
-                EntityRef ref = new BaseEntityRef(this, id);
-                existingEntities.unsafeSet(id, ref);
-                return ref;
-            }
+        if (recycledEntityId.isEmpty()) {
+            int id = nextId++;
+            EntityRef ref = new BaseEntityRef(this, id);
+            existingEntities.set(id, ref);
+            return ref;
+        } else {
+            int id = recycledEntityId.pop();
+            EntityRef ref = new BaseEntityRef(this, id);
+            existingEntities.unsafeSet(id, ref);
+            return ref;
         }
     }
 

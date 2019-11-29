@@ -51,4 +51,17 @@ public class BaseEntityRef implements EntityRef {
     public boolean hasComponent(ComponentType type) {
         return entityManager.hasComponent(id, type);
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        BaseEntityRef that = (BaseEntityRef) o;
+        return id == that.id && entityManager == that.entityManager;
+    }
+
+    @Override
+    public int hashCode() {
+        return id;
+    }
 }
