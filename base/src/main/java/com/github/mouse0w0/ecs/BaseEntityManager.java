@@ -6,9 +6,13 @@ import com.github.mouse0w0.ecs.component.ComponentType;
 import com.github.mouse0w0.ecs.util.IntQueue;
 import com.github.mouse0w0.ecs.util.ObjectArray;
 
+import java.util.HashSet;
+import java.util.Set;
+
 public abstract class BaseEntityManager implements LowLevelEntityManager {
 
     private final ObjectArray<EntityRef> existingEntities = new ObjectArray<>();
+    private final Set<EntityRef> entities = new HashSet<>();
     private final IntQueue recycledEntityId = new IntQueue();
 
     private final ComponentManager componentManager = createComponentManager();
@@ -19,22 +23,28 @@ public abstract class BaseEntityManager implements LowLevelEntityManager {
 
     @Override
     public EntityRef createEntity() {
+        EntityRef ref;
         if (recycledEntityId.isEmpty()) {
             int id = nextId++;
-            EntityRef ref = new BaseEntityRef(this, id);
+            ref = new BaseEntityRef(this, id);
             existingEntities.set(id, ref);
-            return ref;
         } else {
             int id = recycledEntityId.pop();
-            EntityRef ref = new BaseEntityRef(this, id);
+            ref = new BaseEntityRef(this, id);
             existingEntities.unsafeSet(id, ref);
-            return ref;
         }
+        entities.add(ref);
+        return ref;
     }
 
     @Override
     public EntityRef getEntity(int entityId) {
         return existingEntities.get(entityId);
+    }
+
+    @Override
+    public Iterable<EntityRef> getEntities() {
+        return entities;
     }
 
     @Override
@@ -67,6 +77,7 @@ public abstract class BaseEntityManager implements LowLevelEntityManager {
         EntityRef entityRef = existingEntities.get(entityId);
         if (entityRef != null) {
             existingEntities.unsafeSet(entityId, null);
+            entities.remove(entityRef);
             recycledEntityId.push(entityId);
         }
     }

@@ -5,4 +5,6 @@ public interface EntityManager {
     EntityRef createEntity();
 
     EntityRef getEntity(int entityId);
+
+    Iterable<EntityRef> getEntities();
 }
