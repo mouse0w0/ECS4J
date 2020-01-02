@@ -5,11 +5,11 @@ import com.github.mouse0w0.ecs.component.ComponentType;
 
 public class BaseEntityRef implements EntityRef {
 
-    private final LowLevelEntityManager entityManager;
+    private final EntityManager entityManager;
 
     private int id;
 
-    protected BaseEntityRef(LowLevelEntityManager entityManager, int id) {
+    protected BaseEntityRef(EntityManager entityManager, int id) {
         this.entityManager = entityManager;
         this.id = id;
     }

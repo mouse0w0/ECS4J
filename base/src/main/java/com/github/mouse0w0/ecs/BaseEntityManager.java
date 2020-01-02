@@ -9,7 +9,7 @@ import com.github.mouse0w0.ecs.util.ObjectArray;
 import java.util.HashSet;
 import java.util.Set;
 
-public abstract class BaseEntityManager implements LowLevelEntityManager {
+public abstract class BaseEntityManager implements EntityManager {
 
     private final ObjectArray<EntityRef> existingEntities = new ObjectArray<>();
     private final Set<EntityRef> entities = new HashSet<>();
