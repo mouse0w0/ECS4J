@@ -4,9 +4,7 @@ import com.github.mouse0w0.ecs.EntityManager;
 import com.github.mouse0w0.ecs.component.Component;
 import com.github.mouse0w0.ecs.component.ComponentManager;
 import com.github.mouse0w0.ecs.component.ComponentMapper;
-import com.github.mouse0w0.ecs.component.ComponentType;
 import com.github.mouse0w0.ecs.util.BitArray;
-import com.github.mouse0w0.ecs.util.IntIterator;
 
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
@@ -20,9 +18,9 @@ public class DefaultSystemManager implements SystemManager {
 
     private List<RegisteredSystem> systems = new ArrayList<>();
 
-    public DefaultSystemManager(EntityManager entityManager, ComponentManager componentManager) {
+    public DefaultSystemManager(EntityManager entityManager) {
         this.entityManager = entityManager;
-        this.componentManager = componentManager;
+        this.componentManager = entityManager.getComponentManager();
     }
 
     @Override
@@ -55,65 +53,27 @@ public class DefaultSystemManager implements SystemManager {
         if (!int.class.equals(parameterTypes[0]))
             throw new SystemRegistrationException("");
 
-        List<ComponentType> componentTypes = new ArrayList<>();
-//        ComponentTypeFactory factory = componentManager.getComponentMapper();
+        BitArray componentBits = new BitArray();
+        ComponentMapper[] componentMappers = new ComponentMapper[parameterTypes.length - 1];
 
-        for (int i = 1; i < parameterTypes.length; i++) {
+        for (int i = 1, size = parameterTypes.length; i < size; i++) {
             Class<?> parameterType = parameterTypes[i];
             if (Component.class.isAssignableFrom(parameterType)) {
-//                componentTypes.add(factory.get((Class<? extends Component>) parameterType));
+                int componentId = componentManager.getComponentId((Class<? extends Component>) parameterType);
+                componentBits.mark(componentId);
+                componentMappers[i - 1] = componentManager.getComponentMapper(componentId);
             } else {
                 throw new SystemRegistrationException("Unsupported system parameter type " + parameterType);
             }
         }
 
-        registerSystem(owner, method, List.copyOf(componentTypes));
-    }
-
-    private void registerSystem(Object owner, Method method, List<ComponentType> componentTypes) {
-        systems.add(new RegisteredSystem(owner, method, buildComponentTypeBits(componentTypes), buildComponentMappers(componentTypes)));
-    }
-
-    private BitArray buildComponentTypeBits(List<ComponentType> componentTypes) {
-        BitArray bits = new BitArray();
-        for (ComponentType type : componentTypes) {
-            bits.mark(type.getId());
-        }
-        return bits;
-    }
-
-    private ComponentMapper[] buildComponentMappers(List<ComponentType> componentTypes) {
-        List<ComponentMapper> mappers = new ArrayList<>();
-        mappers.add(null);
-        for (ComponentType type : componentTypes) {
-//            mappers.add(componentManager.getComponentMapper(type));
-        }
-        return mappers.toArray(ComponentMapper[]::new);
+        systems.add(new RegisteredSystem(owner, method, componentBits, componentMappers));
     }
 
     @Override
     public void update() {
         for (RegisteredSystem system : systems) {
-            updateSystem(system);
-        }
-    }
-
-    private void updateSystem(RegisteredSystem system) {
-        BitArray systemComponentBits = system.getComponentBits();
-        Object[] args = system.getArgumentArray();
-        ComponentMapper[] componentMappers = system.getComponentMappers();
-        IntIterator entities = entityManager.getEntities();
-        while (entities.hasNext()) {
-            int id = entities.next();
-            BitArray componentBits = componentManager.getComponentBits(id);
-            if (!componentBits.contains(systemComponentBits)) continue;
-
-            args[0] = id;
-            for (int i = 1, size = componentMappers.length; i < size; i++) {
-                args[i] = componentMappers[i].get(id);
-            }
-
-            system.invoke();
+            system.update(entityManager, componentManager);
         }
     }
 }

@@ -3,6 +3,11 @@ package com.github.mouse0w0.ecs.component;
 import com.github.mouse0w0.ecs.util.BitArray;
 
 public interface ComponentManager {
+
+    int register(Class<? extends Component> clazz);
+
+    int getComponentId(Class<? extends Component> clazz);
+
     BitArray getComponentBits(int entityId);
 
     ComponentMapper getComponentMapper(int componentId);

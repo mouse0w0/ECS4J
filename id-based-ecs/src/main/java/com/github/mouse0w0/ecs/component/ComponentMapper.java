@@ -3,15 +3,21 @@ package com.github.mouse0w0.ecs.component;
 import com.github.mouse0w0.ecs.util.ObjectArray;
 
 public class ComponentMapper {
-    private final ComponentType type;
+    private final int id;
+    private final Class<? extends Component> type;
     private final ObjectArray<Component> components;
 
-    public ComponentMapper(ComponentType type) {
+    public ComponentMapper(int id, Class<? extends Component> type) {
+        this.id = id;
         this.type = type;
-        this.components = new ObjectArray(type.getType());
+        this.components = new ObjectArray(this.type);
     }
 
-    public ComponentType getType() {
+    public int getId() {
+        return id;
+    }
+
+    public Class<? extends Component> getType() {
         return type;
     }
 
