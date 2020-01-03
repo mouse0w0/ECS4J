@@ -33,6 +33,16 @@ public final class DefaultComponentManager implements ComponentManager {
     }
 
     @Override
+    public void onCreatedEntity(int entityId) {
+        entityComponents.set(entityId, new BitArray());
+    }
+
+    @Override
+    public void onDestroyedEntity(int entityId) {
+        entityComponents.get(entityId).clear();
+    }
+
+    @Override
     public <T extends Component> T getComponent(int entityId, int componentId) {
         return (T) components.get(componentId).get(entityId);
     }
@@ -57,7 +67,7 @@ public final class DefaultComponentManager implements ComponentManager {
 
     @Override
     public void ensureCapacity(int minCapability) {
-        for (int i = 0, size = components.size(); i < size; i++) {
+        for (int i = 0, size = typeFactory.nextId; i < size; i++) {
             components.get(i).ensureCapacity(minCapability);
         }
         entityComponents.ensureCapacity(minCapability);

@@ -25,15 +25,16 @@ public abstract class BaseEntityManager implements EntityManager {
     public int createEntity() {
         int id;
         if (recycledEntityId.isEmpty()) {
+            id = nextId++;
             if (nextId >= existingEntities.size()) {
                 existingEntities.ensureCapacity(nextId);
                 componentManager.ensureCapacity(nextId);
             }
-            id = nextId++;
         } else {
             id = recycledEntityId.pop();
         }
         existingEntities.unsafeMark(id);
+        componentManager.onCreatedEntity(id);
         return id;
     }
 
@@ -48,6 +49,7 @@ public abstract class BaseEntityManager implements EntityManager {
         if (exists) {
             existingEntities.clear(entityId);
             recycledEntityId.push(entityId);
+            componentManager.onDestroyedEntity(entityId);
         }
     }
 

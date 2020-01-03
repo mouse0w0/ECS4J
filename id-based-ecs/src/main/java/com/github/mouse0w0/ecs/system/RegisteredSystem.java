@@ -59,7 +59,7 @@ public class RegisteredSystem {
             try {
                 method.invoke(owner, args);
             } catch (Exception e) {
-                throw new RuntimeException();
+                throw new RuntimeException(e);
             }
         }
     }

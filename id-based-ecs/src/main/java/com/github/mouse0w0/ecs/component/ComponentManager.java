@@ -12,6 +12,10 @@ public interface ComponentManager {
 
     ComponentMapper getComponentMapper(int componentId);
 
+    void onCreatedEntity(int entityId);
+
+    void onDestroyedEntity(int entityId);
+
     <T extends Component> T getComponent(int entityId, int componentId);
 
     boolean hasComponent(int entityId, int componentId);

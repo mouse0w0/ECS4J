@@ -13,10 +13,10 @@ import java.util.List;
 
 public class DefaultSystemManager implements SystemManager {
 
-    private EntityManager entityManager;
-    private ComponentManager componentManager;
+    private final EntityManager entityManager;
+    private final ComponentManager componentManager;
 
-    private List<RegisteredSystem> systems = new ArrayList<>();
+    private final List<RegisteredSystem> systems = new ArrayList<>();
 
     public DefaultSystemManager(EntityManager entityManager) {
         this.entityManager = entityManager;
@@ -54,14 +54,14 @@ public class DefaultSystemManager implements SystemManager {
             throw new SystemRegistrationException("");
 
         BitArray componentBits = new BitArray();
-        ComponentMapper[] componentMappers = new ComponentMapper[parameterTypes.length - 1];
+        ComponentMapper[] componentMappers = new ComponentMapper[parameterTypes.length];
 
         for (int i = 1, size = parameterTypes.length; i < size; i++) {
             Class<?> parameterType = parameterTypes[i];
             if (Component.class.isAssignableFrom(parameterType)) {
                 int componentId = componentManager.getComponentId((Class<? extends Component>) parameterType);
                 componentBits.mark(componentId);
-                componentMappers[i - 1] = componentManager.getComponentMapper(componentId);
+                componentMappers[i] = componentManager.getComponentMapper(componentId);
             } else {
                 throw new SystemRegistrationException("Unsupported system parameter type " + parameterType);
             }

@@ -10,7 +10,7 @@ public class ComponentTypeFactory {
     private final ObjectArray<Class<? extends Component>> idToType = new ObjectArray(Class.class);
     private final Map<Class<? extends Component>, Integer> typeToId = new IdentityHashMap<>();
 
-    private int nextId = 0;
+    int nextId = 0;
 
     public int register(Class<? extends Component> clazz) {
         if (typeToId.containsKey(clazz)) throw new IllegalStateException("Cannot register twice component");
