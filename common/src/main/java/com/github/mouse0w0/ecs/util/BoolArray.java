@@ -2,34 +2,51 @@ package com.github.mouse0w0.ecs.util;
 
 import java.util.Arrays;
 
-public class IntArray {
+public class BoolArray {
+    private boolean[] array;
 
-    private int[] array;
-
-    public IntArray() {
+    public BoolArray() {
         this(64);
     }
 
-    public IntArray(int capacity) {
-        array = new int[capacity];
+    public BoolArray(int capacity) {
+        array = new boolean[capacity];
     }
 
-    public int get(int index) {
-        if (array.length <= index) return 0;
+    public boolean get(int index) {
+        if (array.length <= index) return false;
         return array[index];
     }
 
-    public int unsafeGet(int index) {
+    public boolean unsafeGet(int index) {
         return array[index];
     }
 
-    public void set(int index, int value) {
+    public void set(int index, boolean value) {
         ensureCapacity(index + 1);
         array[index] = value;
     }
 
-    public void unsafeSet(int index, int value) {
+    public void mark(int index) {
+        ensureCapacity(index + 1);
+        array[index] = true;
+    }
+
+    public void clear(int index) {
+        ensureCapacity(index + 1);
+        array[index] = false;
+    }
+
+    public void unsafeSet(int index, boolean value) {
         array[index] = value;
+    }
+
+    public void unsafeMark(int index) {
+        array[index] = true;
+    }
+
+    public void unsafeClear(int index) {
+        array[index] = false;
     }
 
     public void ensureCapacity(int minCapacity) {
@@ -42,7 +59,7 @@ public class IntArray {
         int oldCapacity = array.length;
         int newCapacity = oldCapacity + oldCapacity << 1;
         if (newCapacity < minCapacity) newCapacity = minCapacity;
-        int[] newArray = new int[newCapacity];
+        boolean[] newArray = new boolean[newCapacity];
         System.arraycopy(array, 0, newArray, 0, oldCapacity);
         array = newArray;
     }
@@ -55,8 +72,8 @@ public class IntArray {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        IntArray intArray = (IntArray) o;
-        return Arrays.equals(array, intArray.array);
+        BoolArray boolArray = (BoolArray) o;
+        return Arrays.equals(array, boolArray.array);
     }
 
     @Override
