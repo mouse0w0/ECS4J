@@ -25,7 +25,7 @@ class SystemManagerTest {
         int count = 0;
         double totalTime = 0;
         while (count < 10000) {
-            long startTime = java.lang.System.nanoTime();
+            long startTime = System.nanoTime();
             systemManager.update();
             totalTime += (java.lang.System.nanoTime() - startTime) / 1e6;
             count++;
