@@ -6,11 +6,13 @@ import com.github.mouse0w0.ecs.component.ComponentManager;
 import com.github.mouse0w0.ecs.component.ComponentMapper;
 import com.github.mouse0w0.ecs.util.BitArray;
 
+import javax.annotation.concurrent.NotThreadSafe;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.util.ArrayList;
 import java.util.List;
 
+@NotThreadSafe
 public class DefaultSystemManager implements SystemManager {
 
     private final EntityManager entityManager;

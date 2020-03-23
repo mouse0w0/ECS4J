@@ -5,6 +5,9 @@ import com.github.mouse0w0.ecs.util.BoolArray;
 import com.github.mouse0w0.ecs.util.IntIterator;
 import com.github.mouse0w0.ecs.util.IntQueue;
 
+import javax.annotation.concurrent.NotThreadSafe;
+
+@NotThreadSafe
 public abstract class BaseEntityManager implements EntityManager {
 
     private final BoolArray existingEntities = new BoolArray();
@@ -54,17 +57,32 @@ public abstract class BaseEntityManager implements EntityManager {
     }
 
     @Override
+    public int capacity() {
+        return nextId;
+    }
+
+    @Override
     public IntIterator getEntities() {
-        return new EntityIterator();
+        return new EntityIterator(0, capacity());
+    }
+
+    @Override
+    public IntIterator getEntities(int first, int count) {
+        return new EntityIterator(first, count);
     }
 
     private final class EntityIterator implements IntIterator {
-        int i = 0;
-        int size = existingEntities.size();
-        int nextId = -1;
+        private int i;
+        private int count;
+        private int nextId = -1;
+
+        public EntityIterator(int first, int count) {
+            this.i = first;
+            this.count = count;
+        }
 
         private void findNext() {
-            for (; i < size; i++) {
+            for (; i < count; i++) {
                 if (existingEntities.get(i)) {
                     nextId = i++;
                     return;

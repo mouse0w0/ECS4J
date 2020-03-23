@@ -6,8 +6,10 @@ import com.github.mouse0w0.ecs.component.ComponentMapper;
 import com.github.mouse0w0.ecs.util.BitArray;
 import com.github.mouse0w0.ecs.util.IntIterator;
 
+import javax.annotation.concurrent.NotThreadSafe;
 import java.lang.reflect.Method;
 
+@NotThreadSafe
 public class RegisteredSystem {
 
     private Object owner;

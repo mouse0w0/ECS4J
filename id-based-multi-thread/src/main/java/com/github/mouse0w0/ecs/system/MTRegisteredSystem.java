@@ -8,17 +8,10 @@ import com.github.mouse0w0.ecs.util.IntIterator;
 
 import java.lang.reflect.Method;
 import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 
-public class RegisteredSystem {
+public class MTRegisteredSystem {
 
     private static final int THREAD_COUNT = 12;
-    private static final ExecutorService EXECUTOR;
-
-    static {
-        EXECUTOR = Executors.newFixedThreadPool(THREAD_COUNT);
-    }
 
     private Object owner;
     private Method method;
@@ -26,7 +19,7 @@ public class RegisteredSystem {
     private ComponentMapper[] componentMappers;
     private int componentCount;
 
-    public RegisteredSystem(Object owner, Method method, BitArray componentBits, ComponentMapper[] componentMappers) {
+    public MTRegisteredSystem(Object owner, Method method, BitArray componentBits, ComponentMapper[] componentMappers) {
         this.owner = owner;
         this.method = method;
         method.setAccessible(true);

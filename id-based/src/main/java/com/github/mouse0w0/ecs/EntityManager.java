@@ -13,5 +13,9 @@ public interface EntityManager {
 
     void destroy(int entityId);
 
+    int capacity();
+
     IntIterator getEntities();
+
+    IntIterator getEntities(int first, int count);
 }

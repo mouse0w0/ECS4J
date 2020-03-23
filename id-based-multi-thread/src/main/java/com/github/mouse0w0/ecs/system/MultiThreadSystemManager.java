@@ -11,14 +11,14 @@ import java.lang.reflect.Modifier;
 import java.util.ArrayList;
 import java.util.List;
 
-public class DefaultSystemManager implements SystemManager {
+public class MultiThreadSystemManager implements SystemManager {
 
     private final EntityManager entityManager;
     private final ComponentManager componentManager;
 
-    private final List<RegisteredSystem> systems = new ArrayList<>();
+    private final List<MTRegisteredSystem> systems = new ArrayList<>();
 
-    public DefaultSystemManager(EntityManager entityManager) {
+    public MultiThreadSystemManager(EntityManager entityManager) {
         this.entityManager = entityManager;
         this.componentManager = entityManager.getComponentManager();
     }
@@ -67,12 +67,12 @@ public class DefaultSystemManager implements SystemManager {
             }
         }
 
-        systems.add(new RegisteredSystem(owner, method, componentBits, componentMappers));
+        systems.add(new MTRegisteredSystem(owner, method, componentBits, componentMappers));
     }
 
     @Override
     public void update() {
-        for (RegisteredSystem system : systems) {
+        for (MTRegisteredSystem system : systems) {
             system.update(entityManager, componentManager);
         }
     }
