@@ -2,6 +2,7 @@ package com.github.mouse0w0.ecs.system;
 
 import com.github.mouse0w0.ecs.EntityManager;
 import com.github.mouse0w0.ecs.component.Component;
+import com.github.mouse0w0.ecs.component.ComponentManager;
 import com.github.mouse0w0.ecs.component.ComponentMapper;
 import com.github.mouse0w0.ecs.system.invoker.SystemInvokerFactory;
 import com.github.mouse0w0.ecs.util.BitArray;
@@ -11,18 +12,20 @@ import java.lang.reflect.Modifier;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MultiThreadSystemManager extends BaseSystemManager {
+public abstract class BaseSystemManager implements SystemManager {
+    protected final EntityManager entityManager;
+    protected final ComponentManager componentManager;
 
-    private final List<MTRegisteredSystem> systems = new ArrayList<>();
+    protected final List<RegisteredSystem> systems = new ArrayList<>();
 
-    public MultiThreadSystemManager(EntityManager entityManager) {
-        super(entityManager);
+    protected final SystemInvokerFactory systemInvokerFactory = createSystemInvokerFactory();
+
+    public BaseSystemManager(EntityManager entityManager) {
+        this.entityManager = entityManager;
+        this.componentManager = entityManager.getComponentManager();
     }
 
-    @Override
-    protected SystemInvokerFactory createSystemInvokerFactory() {
-        return null;
-    }
+    protected abstract SystemInvokerFactory createSystemInvokerFactory();
 
     @Override
     public void register(Object object) {
@@ -68,12 +71,12 @@ public class MultiThreadSystemManager extends BaseSystemManager {
             }
         }
 
-        systems.add(new MTRegisteredSystem(owner, method, componentBits, componentMappers));
+        systems.add(new RegisteredSystem(owner, method, componentBits, systemInvokerFactory.create(owner, method, componentMappers)));
     }
 
     @Override
     public void update() {
-        for (MTRegisteredSystem system : systems) {
+        for (RegisteredSystem system : systems) {
             system.update(entityManager, componentManager);
         }
     }
