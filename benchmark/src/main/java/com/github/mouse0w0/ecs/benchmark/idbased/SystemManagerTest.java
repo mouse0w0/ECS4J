@@ -1,5 +1,9 @@
-package com.github.mouse0w0.ecs;
+package com.github.mouse0w0.ecs.benchmark.idbased;
 
+import com.github.mouse0w0.ecs.DefaultEntityManager;
+import com.github.mouse0w0.ecs.EntityManager;
+import com.github.mouse0w0.ecs.benchmark.common.Position;
+import com.github.mouse0w0.ecs.benchmark.common.Velocity;
 import com.github.mouse0w0.ecs.component.ComponentManager;
 import com.github.mouse0w0.ecs.system.DefaultSystemManager;
 import com.github.mouse0w0.ecs.system.SystemManager;

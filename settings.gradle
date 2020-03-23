@@ -1,7 +1,7 @@
 rootProject.name = 'ecs'
+
 include 'base'
-include 'common'
-include 'benchmark'
 include 'id-based'
 include 'id-based-multi-thread'
-
+include 'ref-based'
+include 'benchmark'

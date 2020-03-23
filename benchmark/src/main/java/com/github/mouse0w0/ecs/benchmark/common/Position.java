@@ -1,4 +1,4 @@
-package com.github.mouse0w0.ecs;
+package com.github.mouse0w0.ecs.benchmark.common;
 
 import com.github.mouse0w0.ecs.component.Component;
 

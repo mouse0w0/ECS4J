@@ -1,5 +1,7 @@
-package com.github.mouse0w0.ecs;
+package com.github.mouse0w0.ecs.benchmark.idbased;
 
+import com.github.mouse0w0.ecs.DefaultEntityManager;
+import com.github.mouse0w0.ecs.EntityManager;
 import com.github.mouse0w0.ecs.util.IntIterator;
 
 class EntityManagerTest {
