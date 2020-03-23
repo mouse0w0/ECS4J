@@ -19,7 +19,7 @@ public class ReflectionSystemInvoker implements SystemInvoker {
 
     private final Object[] args;
 
-    public ReflectionSystemInvoker(Object owner, Method method, ComponentMapper[] mappers) {
+    private ReflectionSystemInvoker(Object owner, Method method, ComponentMapper[] mappers) {
         this.owner = owner;
         this.method = method;
         this.method.setAccessible(true);

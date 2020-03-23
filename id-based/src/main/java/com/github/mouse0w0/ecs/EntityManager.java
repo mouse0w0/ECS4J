@@ -1,11 +1,14 @@
 package com.github.mouse0w0.ecs;
 
 import com.github.mouse0w0.ecs.component.ComponentManager;
+import com.github.mouse0w0.ecs.system.SystemManager;
 import com.github.mouse0w0.ecs.util.IntIterator;
 
 public interface EntityManager {
 
     ComponentManager getComponentManager();
+
+    SystemManager getSystemManager();
 
     int createEntity();
 

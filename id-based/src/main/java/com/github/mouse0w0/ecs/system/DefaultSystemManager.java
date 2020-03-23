@@ -1,6 +1,8 @@
 package com.github.mouse0w0.ecs.system;
 
 import com.github.mouse0w0.ecs.EntityManager;
+import com.github.mouse0w0.ecs.system.executor.DefaultSystemExecutor;
+import com.github.mouse0w0.ecs.system.executor.SystemExecutorFactory;
 import com.github.mouse0w0.ecs.system.invoker.ReflectionSystemInvoker;
 import com.github.mouse0w0.ecs.system.invoker.SystemInvokerFactory;
 
@@ -14,7 +16,12 @@ public class DefaultSystemManager extends BaseSystemManager {
     }
 
     @Override
-    protected SystemInvokerFactory createSystemInvokerFactory() {
+    protected SystemExecutorFactory createExecutorFactory() {
+        return DefaultSystemExecutor.FACTORY;
+    }
+
+    @Override
+    protected SystemInvokerFactory createInvokerFactory() {
         return ReflectionSystemInvoker.FACTORY;
     }
 }

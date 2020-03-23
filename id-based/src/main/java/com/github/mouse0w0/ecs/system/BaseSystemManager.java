@@ -4,6 +4,8 @@ import com.github.mouse0w0.ecs.EntityManager;
 import com.github.mouse0w0.ecs.component.Component;
 import com.github.mouse0w0.ecs.component.ComponentManager;
 import com.github.mouse0w0.ecs.component.ComponentMapper;
+import com.github.mouse0w0.ecs.system.executor.SystemExecutor;
+import com.github.mouse0w0.ecs.system.executor.SystemExecutorFactory;
 import com.github.mouse0w0.ecs.system.invoker.SystemInvokerFactory;
 import com.github.mouse0w0.ecs.util.BitArray;
 
@@ -16,16 +18,24 @@ public abstract class BaseSystemManager implements SystemManager {
     protected final EntityManager entityManager;
     protected final ComponentManager componentManager;
 
-    protected final List<RegisteredSystem> systems = new ArrayList<>();
+    protected final List<SystemExecutor> systems = new ArrayList<>();
 
-    protected final SystemInvokerFactory systemInvokerFactory = createSystemInvokerFactory();
+    protected final SystemExecutorFactory executorFactory = createExecutorFactory();
+    protected final SystemInvokerFactory invokerFactory = createInvokerFactory();
 
     public BaseSystemManager(EntityManager entityManager) {
         this.entityManager = entityManager;
         this.componentManager = entityManager.getComponentManager();
     }
 
-    protected abstract SystemInvokerFactory createSystemInvokerFactory();
+    protected abstract SystemExecutorFactory createExecutorFactory();
+
+    protected abstract SystemInvokerFactory createInvokerFactory();
+
+    @Override
+    public SystemInvokerFactory getInvokerFactory() {
+        return invokerFactory;
+    }
 
     @Override
     public void register(Object object) {
@@ -71,13 +81,11 @@ public abstract class BaseSystemManager implements SystemManager {
             }
         }
 
-        systems.add(new RegisteredSystem(owner, method, componentBits, systemInvokerFactory.create(owner, method, componentMappers)));
+        systems.add(executorFactory.create(entityManager, owner, method, componentBits, componentMappers));
     }
 
     @Override
     public void update() {
-        for (RegisteredSystem system : systems) {
-            system.update(entityManager, componentManager);
-        }
+        systems.forEach(SystemExecutor::execute);
     }
 }

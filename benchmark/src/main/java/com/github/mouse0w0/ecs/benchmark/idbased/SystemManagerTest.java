@@ -5,21 +5,16 @@ import com.github.mouse0w0.ecs.EntityManager;
 import com.github.mouse0w0.ecs.benchmark.common.Position;
 import com.github.mouse0w0.ecs.benchmark.common.Velocity;
 import com.github.mouse0w0.ecs.component.ComponentManager;
-import com.github.mouse0w0.ecs.system.DefaultSystemManager;
 import com.github.mouse0w0.ecs.system.SystemManager;
 
 class SystemManagerTest {
 
-    static SystemManager systemManager;
-    static EntityManager entityManager;
-    static ComponentManager componentManager;
-
     public static void main(String[] args) {
-        entityManager = new DefaultEntityManager();
-        componentManager = entityManager.getComponentManager();
+        EntityManager entityManager = new DefaultEntityManager();
+        ComponentManager componentManager = entityManager.getComponentManager();
         int position = componentManager.register(Position.class);
         int velocity = componentManager.register(Velocity.class);
-        systemManager = new DefaultSystemManager(entityManager);
+        SystemManager systemManager = entityManager.getSystemManager();
         systemManager.register(new MoveSystem());
         for (int i = 0; i < 0x1000; i++) {
             int entity = entityManager.createEntity();
