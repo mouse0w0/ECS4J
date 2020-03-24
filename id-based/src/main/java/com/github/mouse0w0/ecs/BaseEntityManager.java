@@ -1,6 +1,7 @@
 package com.github.mouse0w0.ecs;
 
 import com.github.mouse0w0.ecs.component.ComponentManager;
+import com.github.mouse0w0.ecs.system.SystemManager;
 import com.github.mouse0w0.ecs.util.BoolArray;
 import com.github.mouse0w0.ecs.util.IntIterator;
 import com.github.mouse0w0.ecs.util.IntQueue;
@@ -14,14 +15,22 @@ public abstract class BaseEntityManager implements EntityManager {
     private final IntQueue recycledEntityId = new IntQueue();
 
     private final ComponentManager componentManager = createComponentManager();
+    private final SystemManager systemManager = createSystemManager();
 
     private int nextId = 0;
 
     protected abstract ComponentManager createComponentManager();
 
+    protected abstract SystemManager createSystemManager();
+
     @Override
     public ComponentManager getComponentManager() {
         return componentManager;
+    }
+
+    @Override
+    public SystemManager getSystemManager() {
+        return systemManager;
     }
 
     @Override

@@ -15,7 +15,7 @@ public class DefaultEntityManager extends BaseEntityManager {
     }
 
     @Override
-    public SystemManager getSystemManager() {
+    protected SystemManager createSystemManager() {
         return new DefaultSystemManager(this);
     }
 }
