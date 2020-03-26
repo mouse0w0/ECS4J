@@ -1,3 +1,4 @@
 dependencies {
     compile project(":id-based")
+    compile project(":id-based-multi-thread")
 }

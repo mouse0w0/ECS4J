@@ -5,12 +5,17 @@ import com.github.mouse0w0.ecs.EntityManager;
 import com.github.mouse0w0.ecs.benchmark.common.Position;
 import com.github.mouse0w0.ecs.benchmark.common.Velocity;
 import com.github.mouse0w0.ecs.component.ComponentManager;
+import com.github.mouse0w0.ecs.system.MultiThreadEntityManager;
 import com.github.mouse0w0.ecs.system.SystemManager;
 
-class SystemManagerTest {
+class SystemUpdateTest {
 
     public static void main(String[] args) {
-        EntityManager entityManager = new DefaultEntityManager();
+        test(new DefaultEntityManager());
+        test(new MultiThreadEntityManager());
+    }
+
+    public static void test(EntityManager entityManager) {
         ComponentManager componentManager = entityManager.getComponentManager();
         int position = componentManager.register(Position.class);
         int velocity = componentManager.register(Velocity.class);
