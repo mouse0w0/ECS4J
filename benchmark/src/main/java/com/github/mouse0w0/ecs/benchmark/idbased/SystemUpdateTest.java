@@ -5,14 +5,39 @@ import com.github.mouse0w0.ecs.EntityManager;
 import com.github.mouse0w0.ecs.benchmark.common.Position;
 import com.github.mouse0w0.ecs.benchmark.common.Velocity;
 import com.github.mouse0w0.ecs.component.ComponentManager;
+import com.github.mouse0w0.ecs.system.DefaultSystemManager;
 import com.github.mouse0w0.ecs.system.MultiThreadEntityManager;
 import com.github.mouse0w0.ecs.system.SystemManager;
+import com.github.mouse0w0.ecs.system.invoker.AsmSystemInvokerFactory;
+import com.github.mouse0w0.ecs.system.invoker.SystemInvokerFactory;
 
 class SystemUpdateTest {
 
     public static void main(String[] args) {
-        test(new DefaultEntityManager());
-        test(new MultiThreadEntityManager());
+//        test(new DefaultEntityManager());
+//        test(new MultiThreadEntityManager());
+        test(new DefaultEntityManager() {
+            @Override
+            protected SystemManager createSystemManager() {
+                return new DefaultSystemManager(this) {
+                    @Override
+                    protected SystemInvokerFactory createInvokerFactory() {
+                        return new AsmSystemInvokerFactory();
+                    }
+                };
+            }
+        });
+        test(new MultiThreadEntityManager() {
+            @Override
+            protected SystemManager createSystemManager() {
+                return new DefaultSystemManager(this) {
+                    @Override
+                    protected SystemInvokerFactory createInvokerFactory() {
+                        return new AsmSystemInvokerFactory();
+                    }
+                };
+            }
+        });
     }
 
     public static void test(EntityManager entityManager) {
@@ -23,9 +48,10 @@ class SystemUpdateTest {
         systemManager.register(new MoveSystem());
         for (int i = 0; i < 0x1000; i++) {
             int entity = entityManager.createEntity();
-            componentManager.addComponent(entity, position, new Position(0, 0, 0));
-            componentManager.addComponent(entity, velocity, new Velocity(0, 0, 0));
+            componentManager.addComponent(entity, position, new Position(Math.random(), Math.random(), Math.random()));
+            componentManager.addComponent(entity, velocity, new Velocity(Math.random(), Math.random(), Math.random()));
         }
+        System.out.println("Generated entities.");
         int count = 0;
         double totalTime = 0;
         while (count < 10000) {

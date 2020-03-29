@@ -2,7 +2,7 @@ package com.github.mouse0w0.ecs.component;
 
 import com.github.mouse0w0.ecs.util.ObjectArray;
 
-public class ComponentMapper {
+public final class ComponentMapper {
     private final int id;
     private final Class<? extends Component> type;
     private final ObjectArray<Component> components;
