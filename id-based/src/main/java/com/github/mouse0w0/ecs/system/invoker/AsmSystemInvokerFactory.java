@@ -18,25 +18,6 @@ import java.util.concurrent.atomic.AtomicInteger;
 import static org.objectweb.asm.Opcodes.*;
 
 public class AsmSystemInvokerFactory implements SystemInvokerFactory {
-    private final SafeClassDefiner classDefiner = new SafeClassDefiner();
-    private final AtomicInteger nextId = new AtomicInteger();
-    private final Map<Method, Class<?>> cachedClasses = Collections.synchronizedMap(new HashMap<>());
-    private final String factoryHash = Integer.toHexString(System.identityHashCode(this));
-
-    @Override
-    public SystemInvoker create(Object owner, Method method, ComponentMapper[] mappers) {
-        Class<?> invokerClass = getInvokerClass(owner, method);
-        Constructor<?> constructor = invokerClass.getDeclaredConstructors()[0];
-        Object[] args = new Object[constructor.getParameterCount()];
-        args[0] = owner;
-        System.arraycopy(mappers, 1, args, 1, args.length - 1);
-        try {
-            return (SystemInvoker) constructor.newInstance(args);
-        } catch (ReflectiveOperationException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
     private static final String[] INTERFACES = {Type.getInternalName(SystemInvoker.class)};
 
     private static final String[] EXCEPTIONS = {Type.getInternalName(Exception.class)};
@@ -58,6 +39,25 @@ public class AsmSystemInvokerFactory implements SystemInvokerFactory {
             METHOD_UPDATE_DESC = Type.getMethodDescriptor(methodUpdate);
         } catch (Exception e) {
             throw new Error(e);
+        }
+    }
+
+    private final SafeClassDefiner classDefiner = new SafeClassDefiner();
+    private final AtomicInteger nextId = new AtomicInteger();
+    private final Map<Method, Class<?>> cachedClasses = Collections.synchronizedMap(new HashMap<>());
+    private final String factoryHash = Integer.toHexString(System.identityHashCode(this));
+
+    @Override
+    public SystemInvoker create(Object owner, Method method, ComponentMapper[] mappers) {
+        Class<?> invokerClass = getInvokerClass(owner, method);
+        Constructor<?> constructor = invokerClass.getDeclaredConstructors()[0];
+        Object[] args = new Object[constructor.getParameterCount()];
+        args[0] = owner;
+        System.arraycopy(mappers, 1, args, 1, args.length - 1);
+        try {
+            return (SystemInvoker) constructor.newInstance(args);
+        } catch (ReflectiveOperationException e) {
+            throw new RuntimeException(e);
         }
     }
 
