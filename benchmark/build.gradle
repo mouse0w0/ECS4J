@@ -1,4 +1,7 @@
 dependencies {
     compile project(":id-based")
     compile project(":id-based-multi-thread")
+
+    compile "net.onedaybeard.artemis:artemis-odb:2.3.0"
+    compile "com.badlogicgames.ashley:ashley:1.7.3"
 }
