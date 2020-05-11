@@ -1,7 +1,5 @@
 package com.github.mouse0w0.ecs.benchmark.idbased;
 
-import com.github.mouse0w0.ecs.benchmark.common.Position;
-import com.github.mouse0w0.ecs.benchmark.common.Velocity;
 import com.github.mouse0w0.ecs.system.System;
 
 public class MoveSystem {

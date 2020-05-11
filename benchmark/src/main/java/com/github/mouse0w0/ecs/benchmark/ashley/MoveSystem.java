@@ -1,4 +1,4 @@
-package benchmark.ashley;
+package com.github.mouse0w0.ecs.benchmark.ashley;
 
 
 import com.badlogic.ashley.core.ComponentMapper;

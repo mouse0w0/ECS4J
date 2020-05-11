@@ -1,6 +1,6 @@
-package com.github.mouse0w0.ecs.benchmark.common;
+package com.github.mouse0w0.ecs.benchmark.ashley;
 
-import com.github.mouse0w0.ecs.component.Component;
+import com.badlogic.ashley.core.Component;
 
 public class Velocity implements Component {
 

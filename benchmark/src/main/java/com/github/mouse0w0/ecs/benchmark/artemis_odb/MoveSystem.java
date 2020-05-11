@@ -1,4 +1,4 @@
-package benchmark.artemis_odb;
+package com.github.mouse0w0.ecs.benchmark.artemis_odb;
 
 import com.artemis.ComponentMapper;
 import com.artemis.annotations.All;

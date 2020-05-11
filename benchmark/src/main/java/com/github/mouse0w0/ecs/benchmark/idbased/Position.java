@@ -1,6 +1,6 @@
-package benchmark.ashley;
+package com.github.mouse0w0.ecs.benchmark.idbased;
 
-import com.badlogic.ashley.core.Component;
+import com.github.mouse0w0.ecs.component.Component;
 
 public class Position implements Component {
 

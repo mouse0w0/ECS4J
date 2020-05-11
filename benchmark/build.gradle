@@ -4,4 +4,7 @@ dependencies {
 
     compile "net.onedaybeard.artemis:artemis-odb:2.3.0"
     compile "com.badlogicgames.ashley:ashley:1.7.3"
+
+    compile 'org.openjdk.jmh:jmh-core:1.23'
+    annotationProcessor 'org.openjdk.jmh:jmh-generator-annprocess:1.23'
 }
