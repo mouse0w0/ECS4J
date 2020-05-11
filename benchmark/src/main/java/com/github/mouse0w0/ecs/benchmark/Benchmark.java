@@ -1,6 +1,7 @@
 package com.github.mouse0w0.ecs.benchmark;
 
 import com.github.mouse0w0.ecs.benchmark.artemis_odb.ArtemisBenchmark;
+import com.github.mouse0w0.ecs.benchmark.artemis_odb.MultiThreadArtemisBenchmark;
 import com.github.mouse0w0.ecs.benchmark.ashley.AshleyBenchmark;
 import com.github.mouse0w0.ecs.benchmark.idbased.AsmIdBasedBenchmark;
 import com.github.mouse0w0.ecs.benchmark.idbased.MultiThreadAsmIdBasedBenchmark;
@@ -15,6 +16,7 @@ public class Benchmark {
                 .include(ArtemisBenchmark.class.getSimpleName())
                 .include(AshleyBenchmark.class.getSimpleName())
                 .include(AsmIdBasedBenchmark.class.getSimpleName())
+                .include(MultiThreadArtemisBenchmark.class.getSimpleName())
                 .include(MultiThreadAsmIdBasedBenchmark.class.getSimpleName())
                 .build()).run();
     }
